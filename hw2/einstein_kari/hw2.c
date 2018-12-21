@@ -6,8 +6,10 @@ typedef double db;
 #define win first
 #define los second 
 unordered_map<bd,pair<db,db>> trans;
+int board[25];
 const db INF = 1e10;
 bd mask1, mask2;
+int phase;
 bd turn(bd h){
     return (h>>25ll)|(h<<75ll);
 }
@@ -117,6 +119,15 @@ bd dcs(bd h){
     }
     return g;
 }
+int move_bd(ll h, ll newh){
+    newh = (newh>>25)|(newh<<75);
+    int ori_pos=0;
+    int new_pos=0;
+    if(phase%2){
+        for(int i=0;i<25;i++){
+        }
+    }
+}
 int init[6]={0,1,2,5,6,10}
 int main(){
     char c;
@@ -125,5 +136,5 @@ int main(){
     char odr[10];
     scanf("%s",odr);
     for(int i=0;i<6;i++)board[init[i]]=ord[i]-'0';
-    for(int i=0;i<6;i++)board[24-init[i]]=ord[i]-'0';
+    for(int i=0;i<6;i++)board[24-init[i]]=10+ord[i]-'0';
 }
