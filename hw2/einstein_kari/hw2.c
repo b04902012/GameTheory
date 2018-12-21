@@ -119,13 +119,20 @@ bd dcs(bd h){
     }
     return g;
 }
-int move_bd(ll h, ll newh){
+int move_by_hash(bd h, bd newh){
     newh = (newh>>25)|(newh<<75);
     int ori_pos=0;
     int new_pos=0;
-    if(phase%2){
-        for(int i=0;i<25;i++){
+    for(int i=0;i<25;i++){
+        if(h[i] & ~newh[i]){
+            ori_pos=i;
         }
+        if(~h[i] & newh[i]){
+            new_pos=i;
+        }
+    }
+    if(phase%2){
+        
     }
 }
 int init[6]={0,1,2,5,6,10}
