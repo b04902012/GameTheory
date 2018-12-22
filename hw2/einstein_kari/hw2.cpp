@@ -93,8 +93,10 @@ void move(bd h, bd* lst){
     return;
 }
 int mcts(bd h,db c){
+    cout<<h<<endl;
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
+        printf("%d\n",end(h));
         if(end(h)==1){
             trans[h].win+=1.0;
             return 1;
@@ -128,14 +130,13 @@ int mcts(bd h,db c){
         idx++;
     }
     int res = 3-mcts(g,c);
-    if(res==1)trans[h].first+=1.0;
-    else trans[h].second+=1.0;
+    if(res==1)trans[h].win+=1.0;
+    else trans[h].los+=1.0;
+    printf("%d\n",res);
     return res;
 }
 int move_by_encode(bd h, bd newh, int* board){
     newh = (newh<<25)|(newh>>75);
-    cout<<h<<endl;
-    cout<<newh<<endl;
     int ori_pos=0;
     int new_pos=0;
     for(int i=0;i<25;i++){
@@ -167,6 +168,7 @@ bd dcs(bd h){
     int idx=0;
     bd g = bd(0);
     db rate = -INF;
+    printf("%f\%\n",trans[h].win/(trans[h].win+trans[h].los)*100.0);
     while(lst[idx].any()){
         if(trans.find(lst[idx])==trans.end())trans[lst[idx]]=make_pair(0.0,0.0);
         int b[25];
@@ -202,12 +204,11 @@ int main(){
     for(int i=0;i<6;i++)board[24-init[i]]=10+ord[i]-'0';
     bd h = bd(0);
     h=encode(board);
-    cout<<h<<endl;
     bd list[12];
     move(h,list);
     while(true){
         if(phase%2==self){
-            for(int i=0;i<10000;i++){
+            for(int i=0;i<1;i++){
                 mcts(h,10.0);
             }
             bd new_h = dcs(h);
@@ -241,6 +242,5 @@ int main(){
         phase++;
         phase%=4;
         h=encode(board);
-        cout<<h<<endl;
     }
 }
