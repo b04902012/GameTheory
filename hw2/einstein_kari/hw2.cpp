@@ -40,8 +40,8 @@ bd turn(bd h){
     return (h>>25ll)|(h<<75ll);
 }
 int end(bd h){
-    if((h&mask).none())return 2;
-    if((h&(~mask)).none())return 1;
+    if((h&mask).none())return 1;
+    if((h&(~mask)).none())return 2;
     if(h[24])return 1;
     if(h[49])return 2;
     if(h[74])return 1;
@@ -93,10 +93,8 @@ void move(bd h, bd* lst){
     return;
 }
 int mcts(bd h,db c){
-    cout<<h<<endl;
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
-        printf("%d\n",end(h));
         if(end(h)==1){
             trans[h].win+=1.0;
             return 1;
@@ -132,7 +130,6 @@ int mcts(bd h,db c){
     int res = 3-mcts(g,c);
     if(res==1)trans[h].win+=1.0;
     else trans[h].los+=1.0;
-    printf("%d\n",res);
     return res;
 }
 int move_by_encode(bd h, bd newh, int* board){
@@ -153,7 +150,6 @@ int move_by_encode(bd h, bd newh, int* board){
     } 
     if(ori_pos + new_pos == 0)
         return 0;
-    printf("%d %d\n",ori_pos,new_pos);
     board[new_pos]=board[ori_pos];
     board[ori_pos]=0;
     int res = board[new_pos]*10;
@@ -168,13 +164,11 @@ bd dcs(bd h){
     int idx=0;
     bd g = bd(0);
     db rate = -INF;
-    printf("%f\%\n",trans[h].win/(trans[h].win+trans[h].los)*100.0);
     while(lst[idx].any()){
         if(trans.find(lst[idx])==trans.end())trans[lst[idx]]=make_pair(0.0,0.0);
         int b[25];
         move_by_encode(h,lst[idx],b);
-        printf("%f %f\n",trans[lst[idx]].win,trans[lst[idx]].los);
-        
+
         if(rate<trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)){
             g=lst[idx];
             rate=trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los);
@@ -189,58 +183,59 @@ int main(){
         mask[i]=mask[50+i]=1;
         mask[25+i]=mask[75+i]=0;
     }
-    char c;
-    scanf("%c",&c);
-    if(c=='e')return 0;
-    if(c=='f')self=0;
-    if(c=='s')self=1;
-    phase = 2;
-    int board[25]={0};
-    char ord[10]={' '};
-    for(int i=0;i<6;i++)
-        while(ord[i]<'1'||ord[i]>'6')
-            scanf("%c",&ord[i]);
-    for(int i=0;i<6;i++)board[init[i]]=ord[i]-'0';
-    for(int i=0;i<6;i++)board[24-init[i]]=10+ord[i]-'0';
-    bd h = bd(0);
-    h=encode(board);
-    bd list[12];
-    move(h,list);
     while(true){
-        if(phase%2==self){
-            for(int i=0;i<1;i++){
-                mcts(h,10.0);
+        char c=' ';
+        while(c!='e'&&c!='f'&&c!='g')
+            scanf("%c",&c);
+        if(c=='e')return 0;
+        if(c=='f')self=0;
+        if(c=='s')self=1;
+        phase = 2;
+        int board[25]={0};
+        char ord[10]={' '};
+        for(int i=0;i<6;i++)
+            while(ord[i]<'1'||ord[i]>'6')
+                scanf("%c",&ord[i]);
+        for(int i=0;i<6;i++)board[init[i]]=ord[i]-'0';
+        for(int i=0;i<6;i++)board[24-init[i]]=10+ord[i]-'0';
+        bd h = bd(0);
+        h=encode(board);
+        bd list[12];
+        move(h,list);
+        while(true){
+            if(phase%2==self){
+                for(int i=0;i<10000;i++){
+                    mcts(h,10.0);
+                }
+                bd new_h = dcs(h);
+                int res = move_by_encode(h,new_h,board);
+                if(!res)puts("00");
+                else
+                    printf("%d\n",res);
+                fflush(stdout);
             }
-            bd new_h = dcs(h);
-            int res = move_by_encode(h,new_h,board);
-            printf("%d\n",res);
-        }
-        else{
-            char res[2]={' '};
-            while(res[0]<'0'||res[0]>'9')
-                scanf("%c",&res[0]);
-            while(res[1]<'0'||res[1]>'9')
-                scanf("%c",&res[1]);
-            puts("!");
-            int n=res[0]-'0'+10,m=res[1]-'0';
-            for(int i=0;i<25;i++){
-                if(board[i]==n){
-                    board[i]=0;
-                    if(m==1)board[i-1]=n;
-                    if(m==2)board[i-5]=n;
-                    if(m==3)board[i-6]=n;
-                    break;
+            else{
+                char res[2]={' '};
+                while(res[0]<'0'||res[0]>'9')
+                    scanf("%c",&res[0]);
+                while(res[1]<'0'||res[1]>'9')
+                    scanf("%c",&res[1]);
+                int n=res[0]-'0'+10,m=res[1]-'0';
+                for(int i=0;i<25;i++){
+                    if(board[i]==n){
+                        board[i]=0;
+                        if(m==1)board[i-1]=n;
+                        if(m==2)board[i-5]=n;
+                        if(m==3)board[i-6]=n;
+                        break;
+                    }
                 }
             }
+            if(end(h))
+                break;
+            phase++;
+            phase%=4;
+            h=encode(board);
         }
-        for(int i=0;i<5;i++){
-            for(int j=0;j<5;j++){
-                printf("%3d ",board[i*5+j]);
-            }
-            puts("");
-        }
-        phase++;
-        phase%=4;
-        h=encode(board);
     }
 }

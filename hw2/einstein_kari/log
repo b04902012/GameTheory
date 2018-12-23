@@ -1,0 +1,51 @@
+Player 1 = ./hw2
+Player 2 = ./greedy
+Random Seed = 274248381
+==========
+Red (First) = Player 1
+Blue (Second) = Player 2
+
+r6 r5 r4 -- --
+r2 r1 -- -- --
+r3 -- -- -- b3
+-- -- -- b1 b2
+-- -- b4 b5 b6
+
+r5, 3
+b1, 3
+Player 1: Foul
+Player 2 Wins.
+Player 1's Score: 0
+Player 2's Score: 1
+==========
+Red (First) = Player 2
+Blue (Second) = Player 1
+
+r1 r5 r6 -- --
+r4 r2 -- -- --
+r3 -- -- -- b3
+-- -- -- b2 b4
+-- -- b6 b5 b1
+
+r3, 3
+Player 1: Time Limit Exceeded
+Player 2 Wins.
+Player 1's Score: 0
+Player 2's Score: 2
+==========
+Red (First) = Player 1
+Blue (Second) = Player 2
+
+r2 r3 r5 -- --
+r4 r1 -- -- --
+r6 -- -- -- b6
+-- -- -- b1 b4
+-- -- b5 b3 b2
+
+r3, 3
+b1, 3
+Player 1: Foul
+Player 2 Wins.
+Player 1's Score: 0
+Player 2's Score: 3
+==========
