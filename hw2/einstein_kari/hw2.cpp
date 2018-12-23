@@ -6,7 +6,6 @@ typedef double db;
 #define win first
 #define los second 
 unordered_map<bd,pair<db,db>> trans;
-int board[25];
 const db INF = 1e10;
 bd mask;
 int self;
@@ -40,12 +39,18 @@ bd turn(bd h){
     return (h>>25ll)|(h<<75ll);
 }
 int end(bd h){
-    if((h&mask).none())return 1;
-    if((h&(~mask)).none())return 2;
-    if(h[24])return 1;
-    if(h[49])return 2;
-    if(h[74])return 1;
-    if(h[99])return 2;
+    if((h&mask).none()){
+        return 1;
+    }
+    if((h&(~mask)).none()){
+        return 2;
+    }
+    if(h[24]||h[74]){
+        return 2;
+    }
+    if(h[49]||h[99]){
+        return 1;
+    }
     return 0;
 }
 void move(bd h, bd* lst){
@@ -95,6 +100,7 @@ void move(bd h, bd* lst){
 int mcts(bd h,db c){
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
+        printf("%d\n",end(h));
         if(end(h)==1){
             trans[h].win+=1.0;
             return 1;
@@ -107,14 +113,14 @@ int mcts(bd h,db c){
     bd lst[12];
     move(h,lst);
     int idx = 0;
-    bd g = bd(0);
+    bd g = turn(h);
     db score = -INF;
     pair<db,db>s=trans[h];
     while(lst[idx].any()){
         pair<db,db>t=trans[lst[idx]];
         db rate = 0.0;
         if(t.win+t.los)
-            rate = t.los/(t.win+t.los);
+            rate = t.win/(t.win+t.los);
         db reg = 0.0;
         if(s.win+s.los){
             if(t.win+t.los)
@@ -134,6 +140,7 @@ int mcts(bd h,db c){
 }
 int move_by_encode(bd h, bd newh, int* board){
     newh = (newh<<25)|(newh>>75);
+    if(newh==h)return 0;
     int ori_pos=0;
     int new_pos=0;
     for(int i=0;i<25;i++){
@@ -148,8 +155,6 @@ int move_by_encode(bd h, bd newh, int* board){
         ori_pos = 24 - ori_pos;
         new_pos = 24 - new_pos;
     } 
-    if(ori_pos + new_pos == 0)
-        return 0;
     board[new_pos]=board[ori_pos];
     board[ori_pos]=0;
     int res = board[new_pos]*10;
@@ -162,13 +167,9 @@ bd dcs(bd h){
     bd lst[12];
     move(h,lst);
     int idx=0;
-    bd g = bd(0);
+    bd g = turn(h);
     db rate = -INF;
     while(lst[idx].any()){
-        if(trans.find(lst[idx])==trans.end())trans[lst[idx]]=make_pair(0.0,0.0);
-        int b[25];
-        move_by_encode(h,lst[idx],b);
-
         if(rate<trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)){
             g=lst[idx];
             rate=trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los);
@@ -185,8 +186,9 @@ int main(){
     }
     while(true){
         char c=' ';
-        while(c!='e'&&c!='f'&&c!='g')
+        while(c!='e'&&c!='f'&&c!='s')
             scanf("%c",&c);
+        fprintf(stderr,"%c\n",c);
         if(c=='e')return 0;
         if(c=='f')self=0;
         if(c=='s')self=1;
@@ -196,6 +198,8 @@ int main(){
         for(int i=0;i<6;i++)
             while(ord[i]<'1'||ord[i]>'6')
                 scanf("%c",&ord[i]);
+        ord[6]='\0';
+        fprintf(stderr,"%s\n",ord);
         for(int i=0;i<6;i++)board[init[i]]=ord[i]-'0';
         for(int i=0;i<6;i++)board[24-init[i]]=10+ord[i]-'0';
         bd h = bd(0);
@@ -209,17 +213,19 @@ int main(){
                 }
                 bd new_h = dcs(h);
                 int res = move_by_encode(h,new_h,board);
-                if(!res)puts("00");
+                if(!res)printf("00");
                 else
-                    printf("%d\n",res);
+                    printf("%d",res);
                 fflush(stdout);
             }
             else{
                 char res[2]={' '};
-                while(res[0]<'0'||res[0]>'9')
+                while(res[0]<'0'||res[0]>'z')
                     scanf("%c",&res[0]);
-                while(res[1]<'0'||res[1]>'9')
+                while(res[1]<'0'||res[1]>'z')
                     scanf("%c",&res[1]);
+                if(res[0]=='w'||res[0]=='l')
+                    break;
                 int n=res[0]-'0'+10,m=res[1]-'0';
                 for(int i=0;i<25;i++){
                     if(board[i]==n){
@@ -231,10 +237,15 @@ int main(){
                     }
                 }
             }
-            if(end(h))
-                break;
             phase++;
             phase%=4;
+            fprintf(stderr,"\n");
+            for(int i=0;i<5;i++){
+                for(int j=0;j<5;j++){
+                    fprintf(stderr,"%3d ",board[i*5+j]);
+                }
+                fprintf(stderr,"\n");
+            }
             h=encode(board);
         }
     }
