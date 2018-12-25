@@ -1,4 +1,6 @@
 #include<bits/stdc++.h>
+#include<signal.h>
+#include<unistd.h>
 using namespace std;
 typedef long long int ll;
 typedef bitset<100> bd;
@@ -10,6 +12,10 @@ const db INF = 1e10;
 bd mask;
 int self;
 int phase;
+bool timeup;
+void alarm_func(int sig){
+    timeup=true;
+}
 bd encode(int* board){
     bd h = bd(0);
     for(int t=0;t<4;t++){
@@ -36,20 +42,21 @@ bd encode(int* board){
     return h;
 }
 bd turn(bd h){
-    return (h>>25ll)|(h<<75ll);
-}
+    return (h>>25)|(h<<75);
+};
+
 int end(bd h){
     if((h&mask).none()){
-        return 1;
+        return 2;
     }
     if((h&(~mask)).none()){
-        return 2;
+        return 1;
     }
     if(h[24]||h[74]){
-        return 2;
+        return 1;
     }
     if(h[49]||h[99]){
-        return 1;
+        return 2;
     }
     return 0;
 }
@@ -100,7 +107,6 @@ void move(bd h, bd* lst){
 int mcts(bd h,db c){
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
-        printf("%d\n",end(h));
         if(end(h)==1){
             trans[h].win+=1.0;
             return 1;
@@ -118,12 +124,12 @@ int mcts(bd h,db c){
     pair<db,db>s=trans[h];
     while(lst[idx].any()){
         pair<db,db>t=trans[lst[idx]];
-        db rate = 0.0;
-        if(t.win+t.los)
-            rate = t.win/(t.win+t.los);
+        db rate = 0.5;
+        if(t.win+t.los>0.5)
+            rate = t.los/(t.win+t.los);
         db reg = 0.0;
-        if(s.win+s.los){
-            if(t.win+t.los)
+        if(s.win+s.los>0.5){
+            if(t.win+t.los>0.5)
                 reg = c * sqrt(log(s.win+s.los)/(t.win+t.los));
             else reg = INF;
         }
@@ -163,16 +169,21 @@ int move_by_encode(bd h, bd newh, int* board){
     if(abs(new_pos-ori_pos)==6)res+=3;
     return res;
 }
-bd dcs(bd h){
+bd dcs(bd h,int* board){
     bd lst[12];
     move(h,lst);
     int idx=0;
     bd g = turn(h);
     db rate = -INF;
     while(lst[idx].any()){
+        int b[25];
+        for(int i=0;i<25;i++)b[i]=board[i];
+        fprintf(stderr,"%d: ",move_by_encode(h,lst[idx],b));
+        fprintf(stderr,"%f\%\n",trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)*100.0);
         if(rate<trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)){
             g=lst[idx];
             rate=trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los);
+            
         }
         idx++;
     }
@@ -180,11 +191,13 @@ bd dcs(bd h){
 }
 int init[6]={0,1,2,5,6,10};
 int main(){
+    signal(SIGALRM, alarm_func);
     for(int i=0;i<25;i++){
         mask[i]=mask[50+i]=1;
         mask[25+i]=mask[75+i]=0;
     }
     while(true){
+        trans.clear();
         char c=' ';
         while(c!='e'&&c!='f'&&c!='s')
             scanf("%c",&c);
@@ -208,10 +221,17 @@ int main(){
         move(h,list);
         while(true){
             if(phase%2==self){
-                for(int i=0;i<10000;i++){
-                    mcts(h,10.0);
+                timeup=false;
+                int num=0;
+                alarm(3);
+                while(!timeup){
+                    mcts(h,1.18);
+                    num++;
                 }
-                bd new_h = dcs(h);
+                fprintf(stderr,"%d\n",num);
+                fprintf(stderr,"%f\%\n",trans[h].win/(trans[h].win+trans[h].los)*100);
+                cerr<<h<<endl;
+                bd new_h = dcs(h,board);
                 int res = move_by_encode(h,new_h,board);
                 if(!res)printf("00");
                 else
