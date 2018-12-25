@@ -13,6 +13,11 @@ bd mask;
 int self;
 int phase;
 bool timeup;
+long long g_seed = 37ll;
+int fastrand() {
+    g_seed = (214013ll*g_seed+2531011ll)%1000000009ll;
+    return (ll)(g_seed>>16ll);
+}
 void alarm_func(int sig){
     timeup=true;
 }
@@ -104,7 +109,7 @@ void move(bd h, bd* lst){
     lst[idx]=bd(0);
     return;
 }
-int mcts(bd h,db c){
+int mcts(bd h,db c,int depth){
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
         if(end(h)==1){
@@ -122,24 +127,33 @@ int mcts(bd h,db c){
     bd g = turn(h);
     db score = -INF;
     pair<db,db>s=trans[h];
-    while(lst[idx].any()){
-        pair<db,db>t=trans[lst[idx]];
-        db rate = 0.5;
-        if(t.win+t.los>0.5)
-            rate = t.los/(t.win+t.los);
-        db reg = 0.0;
-        if(s.win+s.los>0.5){
+    if(depth<2){
+        while(lst[idx].any()){
+            pair<db,db>t=trans[lst[idx]];
+            db rate = 0.5;
             if(t.win+t.los>0.5)
-                reg = c * sqrt(log(s.win+s.los)/(t.win+t.los));
-            else reg = INF;
+                rate = t.los/(t.win+t.los);
+            db reg = 0.0;
+            if(s.win+s.los>0.5){
+                if(t.win+t.los>0.5)
+                    reg = c * sqrt(log(s.win+s.los)/(t.win+t.los));
+                else reg = INF;
+            }
+            if(score<reg+rate){
+                g=lst[idx];
+                score = reg+rate;
+            }
+            idx++;
         }
-        if(score<reg+rate){
-            g=lst[idx];
-            score = reg+rate;
-        }
-        idx++;
     }
-    int res = 3-mcts(g,c);
+    else{
+        while(lst[idx].any())idx++;
+        if(idx){
+            int search_idx = fastrand()%idx;
+            g=lst[search_idx];
+        }
+    }
+    int res = 3-mcts(g,c,depth+1);
     if(res==1)trans[h].win+=1.0;
     else trans[h].los+=1.0;
     return res;
@@ -223,9 +237,9 @@ int main(){
             if(phase%2==self){
                 timeup=false;
                 int num=0;
-                alarm(3);
+                alarm(9);
                 while(!timeup){
-                    mcts(h,1.18);
+                    mcts(h,1.18,0);
                     num++;
                 }
                 fprintf(stderr,"%d\n",num);
