@@ -11,7 +11,10 @@ typedef pair<db,db> PD;
 #define win first
 #define los second 
 #define EXPAND_TIME 100
+#define PRUNE_R 1.0
+#define PRUNE_THR 0.3
 unordered_map<bd,pair<db,db>> trans;
+unordered_map<bd,int> prune;
 const db INF = 1e10;
 bd mask;
 int self;
@@ -171,11 +174,22 @@ PD mcts(bd h,db c,int depth){
         int idx = 0;
         bd g = turn(h);
         db score = -INF;
+        db max_rate = 0.0;
+        db max_var = 0.0;
+        int prune_list = prune[h];
         while(lst[idx].any()){
-            pair<db,db>t=trans[lst[idx]];
+            if((1<<idx)&prune_list){
+                idx++;
+                continue;
+            }
+            PD t=trans[lst[idx]];
             db rate = 0.5;
             if(t.win+t.los>0.5)
                 rate = t.los/(t.win+t.los);
+            if(rate > max_rate){
+                max_rate = rate;
+                max_var = sqrt(t.los * t.win / pow((t.win+t.los), 2.0));
+            }
             db reg = 0.0;
             if(s.win+s.los>0.5){
                 if(t.win+t.los>0.5)
@@ -187,6 +201,14 @@ PD mcts(bd h,db c,int depth){
                 score = reg+rate;
             }
             idx++;
+        }
+        for(int tmp_idx = 0; tmp_idx < idx; tmp_idx ++){
+            PD t = trans[lst[tmp_idx]];
+            db rate = t.los / (t.win+t.los);
+            db var = sqrt(t.los * t.win / pow((t.win+t.los), 2.0));
+            if(rate + PRUNE_R * var < max_rate - PRUNE_R * max_var && var < PRUNE_THR && max_var < PRUNE_R){
+                prune[h]|=(1<<tmp_idx);
+            }
         }
         res = rev(mcts(g,c,depth+1));
     }
@@ -278,7 +300,7 @@ int main(){
                 timeup=false;
                 int num=0;
                 alarm(8);
-                while(!timeup && num < 1000){
+                while(!timeup && num < 50000){
                     mcts(h,1.18,0);
                     num++;
                 }
