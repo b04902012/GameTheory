@@ -1,517 +1,532 @@
-Player 1 = ./hw2
-Player 2 = ./random
-Random Seed = 2222759803
+Player 1 = ./hw2_new
+Player 2 = ./greedy
+Random Seed = 191177363
 ==========
-Red (First) = Player 1
-Blue (Second) = Player 2
+Red (First) = Player 2
+Blue (Second) = Player 1
 
-r6 r3 r1 -- --
-r4 r5 -- -- --
-r2 -- -- -- b2
--- -- -- b5 b4
--- -- b1 b3 b6
+r3 r6 r4 -- --
+r1 r2 -- -- --
+r5 -- -- -- b5
+-- -- -- b2 b1
+-- -- b4 b6 b3
 
+r5, 3
+b5, 1
+r2, 3
+b4, 3
 r1, 3
-b3, 3
-r2, 1
-b2, 3
-r3, 3
-b5, 2
-r6, 1
-b4, 1
-r3, 1
-b3, 1
+b5, 3
+r2, 3
+b6, 2
+r1, 2
+b1, 3
+r4, 2
+b6, 3
+r1, 3
+b1, 3
 r6, 3
 b6, 2
-r5, 3
-b3, 2
-r4, 3
-b4, 3
+r1, 1
+b3, 1
+r?, 0
+b6, 2
 r3, 3
-b5, 2
-r4, 3
+b3, 1
+r?, 0
 b6, 1
-r3, 2
-b1, 1
-r6, 1
+r3, 3
+b3, 1
+r?, 0
 b6, 1
-r3, 2
 Player 1 Wins.
 Player 1's Score: 1
 Player 2's Score: 0
 ==========
-Red (First) = Player 2
-Blue (Second) = Player 1
+Red (First) = Player 1
+Blue (Second) = Player 2
 
-r2 r3 r5 -- --
-r4 r6 -- -- --
-r1 -- -- -- b1
--- -- -- b6 b4
--- -- b5 b3 b2
+r1 r2 r3 -- --
+r6 r5 -- -- --
+r4 -- -- -- b4
+-- -- -- b5 b6
+-- -- b3 b2 b1
 
+r3, 3
+b5, 3
+r4, 1
+b4, 3
 r5, 3
 b3, 3
-r6, 1
-b6, 3
-r5, 1
-b3, 3
+r4, 2
+b4, 3
+r1, 3
+b1, 3
+r2, 1
+b2, 3
+r5, 3
+b?, 0
+r4, 3
+b6, 1
+r1, 1
+b?, 0
 r4, 1
 b2, 3
-r5, 2
-b5, 3
-r6, 2
-b4, 2
-r1, 2
-b3, 3
-r6, 2
-b2, 1
-r1, 2
-b5, 3
-r2, 2
-b2, 1
-r3, 1
-b5, 2
-r4, 3
-b2, 1
-r3, 2
-b5, 2
+r1, 1
+b?, 0
+r4, 1
 Player 1 Wins.
 Player 1's Score: 2
 Player 2's Score: 0
 ==========
+Red (First) = Player 2
+Blue (Second) = Player 1
+
+r4 r5 r2 -- --
+r6 r1 -- -- --
+r3 -- -- -- b3
+-- -- -- b1 b6
+-- -- b2 b5 b4
+
+r1, 3
+b3, 3
+r2, 3
+b6, 3
+r1, 3
+b5, 2
+r2, 2
+b2, 3
+r3, 3
+b5, 2
+r6, 3
+b4, 2
+r3, 3
+b5, 2
+r6, 3
+b4, 2
+r3, 1
+b5, 3
+r6, 1
+b4, 1
+r3, 1
+Player 2 Wins.
+Player 1's Score: 2
+Player 2's Score: 1
+==========
 Red (First) = Player 1
 Blue (Second) = Player 2
 
-r1 r3 r4 -- --
-r6 r5 -- -- --
-r2 -- -- -- b2
--- -- -- b5 b6
--- -- b4 b3 b1
+r1 r6 r2 -- --
+r4 r3 -- -- --
+r5 -- -- -- b5
+-- -- -- b3 b4
+-- -- b2 b6 b1
 
-r3, 3
+r5, 3
 b3, 3
-r4, 3
-b2, 2
+r2, 2
+b2, 3
 r3, 3
-b1, 1
-r4, 3
-b2, 1
-r3, 3
-b3, 2
+b5, 3
 r2, 1
-b2, 1
-r3, 2
+b2, 3
+r1, 3
+b1, 3
+r4, 2
+b4, 3
+r3, 3
+b?, 0
+r2, 2
+b6, 2
+r1, 3
+b?, 0
+r2, 2
 Player 1 Wins.
 Player 1's Score: 3
-Player 2's Score: 0
+Player 2's Score: 1
 ==========
 Red (First) = Player 2
 Blue (Second) = Player 1
 
-r3 r5 r6 -- --
-r4 r1 -- -- --
-r2 -- -- -- b2
--- -- -- b1 b4
--- -- b6 b5 b3
-
-r1, 2
-b1, 3
-r2, 3
-b2, 3
-r5, 2
-b3, 3
-r6, 2
-b2, 3
-r3, 1
-b5, 3
-r4, 2
-b2, 1
-r5, 3
-b5, 2
-r2, 2
-b2, 1
-Player 1 Wins.
-Player 1's Score: 4
-Player 2's Score: 0
-==========
-Red (First) = Player 1
-Blue (Second) = Player 2
-
-r3 r2 r6 -- --
-r5 r4 -- -- --
+r5 r3 r6 -- --
+r2 r4 -- -- --
 r1 -- -- -- b1
--- -- -- b4 b5
--- -- b6 b2 b3
-
-r5, 3
-b1, 2
-r6, 3
-b4, 2
-r5, 3
-b5, 1
-r6, 3
-b4, 3
-r1, 1
-b5, 3
-r6, 2
-b4, 2
-r5, 3
-b1, 2
-r6, 2
-Player 1 Wins.
-Player 1's Score: 5
-Player 2's Score: 0
-==========
-Red (First) = Player 2
-Blue (Second) = Player 1
-
-r3 r2 r1 -- --
-r6 r5 -- -- --
-r4 -- -- -- b4
--- -- -- b5 b6
--- -- b1 b2 b3
-
-r5, 2
-b5, 3
-r2, 2
-b4, 3
-r5, 2
-b3, 3
-r4, 1
-b6, 3
-r3, 1
-b1, 2
-r2, 1
-b4, 1
-r3, 3
-b1, 3
-r6, 1
-b2, 3
-r3, 1
-b5, 3
-r?, 0
-b6, 1
-r3, 1
-b5, 3
-Player 1 Wins.
-Player 1's Score: 6
-Player 2's Score: 0
-==========
-Red (First) = Player 1
-Blue (Second) = Player 2
-
-r2 r6 r3 -- --
-r4 r1 -- -- --
-r5 -- -- -- b5
--- -- -- b1 b4
--- -- b3 b6 b2
+-- -- -- b4 b2
+-- -- b6 b3 b5
 
 r1, 3
-b5, 2
-r4, 1
-b6, 3
-r5, 3
-b3, 1
-r2, 2
-b6, 3
-r5, 3
-b5, 2
-r2, 3
-b4, 2
-r3, 3
-b5, 1
-r2, 3
-b4, 1
-r3, 3
-b5, 1
-r2, 3
-b2, 2
-r3, 2
-b1, 1
-r2, 1
-Player 1 Wins.
-Player 1's Score: 7
-Player 2's Score: 0
-==========
-Red (First) = Player 2
-Blue (Second) = Player 1
-
-r4 r1 r3 -- --
-r2 r6 -- -- --
-r5 -- -- -- b5
--- -- -- b6 b2
--- -- b3 b1 b4
-
-r1, 3
-b1, 3
-r4, 1
-b6, 3
-r1, 3
-b1, 3
-r6, 2
-b6, 3
-r3, 1
 b3, 3
 r4, 3
 b6, 3
+r3, 3
+b3, 3
+r4, 3
+b2, 1
+r3, 3
+b1, 1
+r2, 3
+b6, 3
+r5, 3
+b5, 1
+r2, 3
+b6, 2
+r5, 3
+b5, 3
+r6, 3
+b6, 2
 Player 1 Wins.
-Player 1's Score: 8
-Player 2's Score: 0
+Player 1's Score: 4
+Player 2's Score: 1
 ==========
 Red (First) = Player 1
 Blue (Second) = Player 2
 
 r2 r1 r5 -- --
-r3 r4 -- -- --
-r6 -- -- -- b6
--- -- -- b4 b3
+r3 r6 -- -- --
+r4 -- -- -- b4
+-- -- -- b6 b3
 -- -- b5 b1 b2
 
-r5, 3
-b3, 3
+r3, 3
+b5, 3
 r4, 3
-b2, 2
-r1, 3
+b6, 3
+r5, 2
 b1, 3
-r2, 3
-b4, 3
-r3, 3
-b5, 1
-r2, 3
+r4, 1
 b6, 3
-r3, 3
+r1, 2
 b3, 3
-r2, 3
+r2, 1
+b4, 3
+r5, 3
+b?, 0
+r4, 2
+b4, 3
+r5, 3
+b?, 0
+r2, 1
 b2, 2
 r3, 3
-b5, 2
-r6, 1
-b6, 3
-r3, 1
+b?, 0
+r2, 3
+b2, 3
+r3, 3
+b?, 0
+r2, 2
 Player 1 Wins.
-Player 1's Score: 9
-Player 2's Score: 0
+Player 1's Score: 5
+Player 2's Score: 1
 ==========
 Red (First) = Player 2
 Blue (Second) = Player 1
 
-r3 r6 r2 -- --
-r4 r5 -- -- --
-r1 -- -- -- b1
--- -- -- b5 b4
--- -- b2 b6 b3
+r6 r3 r1 -- --
+r5 r2 -- -- --
+r4 -- -- -- b4
+-- -- -- b2 b5
+-- -- b1 b3 b6
 
-r5, 3
-b1, 3
-r2, 3
-b2, 2
-r5, 2
+r1, 3
 b5, 3
-r6, 1
-b6, 3
-r1, 1
-b3, 3
-r2, 2
-b6, 3
+r2, 3
+b4, 3
 r3, 3
 b5, 3
-r6, 3
+r2, 3
 b6, 3
+r5, 3
+b5, 1
+r6, 3
+b4, 3
+r5, 3
+b3, 3
+r6, 3
+b4, 1
 r?, 0
-b5, 3
+b1, 3
+r6, 3
+b4, 1
 Player 1 Wins.
-Player 1's Score: 10
-Player 2's Score: 0
+Player 1's Score: 6
+Player 2's Score: 1
 ==========
 Red (First) = Player 1
 Blue (Second) = Player 2
 
-r6 r3 r4 -- --
-r1 r2 -- -- --
-r5 -- -- -- b5
--- -- -- b2 b1
--- -- b4 b3 b6
+r1 r3 r6 -- --
+r2 r5 -- -- --
+r4 -- -- -- b4
+-- -- -- b5 b2
+-- -- b6 b3 b1
 
-r5, 3
-b5, 3
-r4, 3
-b2, 1
 r3, 3
-b1, 1
+b5, 3
+r6, 3
+b4, 3
+r5, 3
+b3, 3
+r2, 3
+b4, 1
+r5, 2
+b1, 3
+r4, 3
+b6, 3
+r5, 1
+b?, 0
+r2, 3
+b2, 1
+r1, 3
+b?, 0
+r2, 3
+b4, 1
+r?, 0
+b?, 0
+r2, 1
+Player 1 Wins.
+Player 1's Score: 7
+Player 2's Score: 1
+==========
+Red (First) = Player 2
+Blue (Second) = Player 1
+
+r3 r6 r5 -- --
+r2 r1 -- -- --
+r4 -- -- -- b4
+-- -- -- b1 b2
+-- -- b5 b6 b3
+
+r1, 3
+b5, 3
 r4, 3
 b4, 1
 r1, 3
-b1, 2
-r6, 2
-b2, 3
+b3, 3
+r4, 3
+b6, 1
+r5, 3
+b3, 1
+r2, 3
+b4, 1
+r5, 3
+b3, 3
+r6, 3
+b2, 2
 r3, 3
+b3, 1
+r6, 2
+b6, 1
+r3, 1
 b3, 2
 r6, 3
-b6, 2
-r3, 2
+b6, 1
+r3, 3
+b3, 2
+Player 1 Wins.
+Player 1's Score: 8
+Player 2's Score: 1
+==========
+Red (First) = Player 1
+Blue (Second) = Player 2
+
+r5 r1 r4 -- --
+r2 r3 -- -- --
+r6 -- -- -- b6
+-- -- -- b3 b2
+-- -- b4 b1 b5
+
+r1, 3
+b3, 3
+r4, 3
+b6, 3
+r3, 3
+b1, 3
+r6, 1
+b6, 1
+r3, 1
+b1, 3
+r2, 3
+b2, 3
+r5, 1
+b5, 3
+r2, 2
+b6, 3
+r?, 0
+b5, 3
+r2, 2
+b4, 1
+Player 2 Wins.
+Player 1's Score: 8
+Player 2's Score: 2
+==========
+Red (First) = Player 2
+Blue (Second) = Player 1
+
+r5 r1 r4 -- --
+r6 r2 -- -- --
+r3 -- -- -- b3
+-- -- -- b2 b6
+-- -- b4 b1 b5
+
+r3, 3
+b3, 3
+r4, 3
+b2, 3
+r3, 3
+b1, 3
+r2, 3
+b6, 1
+r3, 1
+b5, 1
+r2, 3
+b?, 0
+r1, 3
+b5, 2
+r4, 3
+b?, 0
+r1, 3
+b5, 3
+r4, 2
+b?, 0
+r1, 2
+b1, 1
+r4, 2
+Player 2 Wins.
+Player 1's Score: 8
+Player 2's Score: 3
+==========
+Red (First) = Player 1
+Blue (Second) = Player 2
+
+r5 r3 r1 -- --
+r6 r4 -- -- --
+r2 -- -- -- b2
+-- -- -- b4 b6
+-- -- b1 b3 b5
+
+r1, 3
+b1, 3
+r4, 3
+b4, 3
+r1, 2
+b1, 3
+r6, 2
+b2, 1
+r3, 1
+b3, 3
+r6, 2
+b4, 3
+r5, 3
+b3, 3
+r6, 1
+b2, 3
+r5, 2
+b5, 3
+r6, 3
+b2, 2
+r5, 1
+b5, 3
+r6, 1
+b2, 1
+r?, 0
+b5, 3
+r6, 1
+Player 1 Wins.
+Player 1's Score: 9
+Player 2's Score: 3
+==========
+Red (First) = Player 2
+Blue (Second) = Player 1
+
+r1 r4 r5 -- --
+r3 r2 -- -- --
+r6 -- -- -- b6
+-- -- -- b2 b3
+-- -- b5 b4 b1
+
+r5, 3
+b5, 3
+r6, 3
+b6, 3
+r3, 3
+b3, 3
+r6, 3
+b6, 3
+r3, 3
+b3, 2
+r6, 1
+b2, 1
+r1, 2
+b1, 1
+r4, 1
+b2, 1
+r1, 3
+b1, 2
+r4, 3
+b2, 3
+r1, 3
+b1, 1
+r4, 3
+b2, 2
+r?, 0
+b1, 1
+r4, 2
+b2, 2
+Player 1 Wins.
+Player 1's Score: 10
+Player 2's Score: 3
+==========
+Red (First) = Player 1
+Blue (Second) = Player 2
+
+r6 r1 r2 -- --
+r5 r3 -- -- --
+r4 -- -- -- b4
+-- -- -- b3 b5
+-- -- b2 b1 b6
+
+r1, 3
+b3, 3
+r2, 3
+b4, 3
+r3, 3
+b1, 3
+r6, 1
+b4, 1
+r5, 1
+b1, 2
+r6, 3
+b2, 3
+r5, 3
+b5, 3
+r6, 3
+b2, 3
+r5, 3
 b?, 0
 r6, 3
 b6, 3
-r3, 3
+r?, 0
+b?, 0
+r6, 2
 Player 1 Wins.
 Player 1's Score: 11
-Player 2's Score: 0
+Player 2's Score: 3
 ==========
 Red (First) = Player 2
 Blue (Second) = Player 1
 
-r5 r1 r3 -- --
-r6 r2 -- -- --
-r4 -- -- -- b4
--- -- -- b2 b6
--- -- b3 b1 b5
-
-r3, 2
-b3, 3
-r4, 3
-b6, 3
-r3, 1
-b5, 2
-r2, 3
-b4, 3
-r5, 3
-b5, 2
-r4, 3
-b6, 3
-r5, 1
-b1, 1
-r6, 3
-b2, 2
-r1, 1
-b1, 1
-r6, 3
-b4, 3
-r5, 3
-b1, 3
-r6, 3
-b4, 1
-r5, 2
-b5, 3
-r2, 2
-b4, 1
-Player 1 Wins.
-Player 1's Score: 12
-Player 2's Score: 0
-==========
-Red (First) = Player 1
-Blue (Second) = Player 2
-
-r4 r5 r2 -- --
-r3 r6 -- -- --
-r1 -- -- -- b1
--- -- -- b6 b3
--- -- b2 b5 b4
-
-r5, 3
-b1, 1
-r2, 3
-b6, 3
-r3, 3
-b5, 3
-r6, 3
-b4, 1
-r1, 3
-b1, 3
-r2, 3
-b2, 1
-r1, 3
-b3, 3
-r6, 3
-b2, 1
-r1, 1
-b3, 1
-r6, 3
-Player 1 Wins.
-Player 1's Score: 13
-Player 2's Score: 0
-==========
-Red (First) = Player 2
-Blue (Second) = Player 1
-
-r6 r1 r2 -- --
-r4 r5 -- -- --
+r1 r6 r5 -- --
+r4 r2 -- -- --
 r3 -- -- -- b3
--- -- -- b5 b4
--- -- b2 b1 b6
+-- -- -- b2 b4
+-- -- b5 b6 b1
 
 r3, 3
-b1, 3
-r2, 1
-b2, 3
-r5, 3
-b5, 3
-r6, 3
-b2, 3
-r1, 3
-b5, 2
-r2, 3
-b6, 3
-r?, 0
-b5, 3
-r4, 3
-b2, 2
-r?, 0
-b5, 1
-Player 1 Wins.
-Player 1's Score: 14
-Player 2's Score: 0
-==========
-Red (First) = Player 1
-Blue (Second) = Player 2
-
-r2 r5 r6 -- --
-r4 r1 -- -- --
-r3 -- -- -- b3
--- -- -- b1 b4
--- -- b6 b5 b2
-
-r5, 3
-b5, 3
-r6, 3
-b4, 3
-r5, 3
-b1, 2
-r6, 2
-b2, 2
-r1, 3
-b5, 1
-r6, 3
-b6, 2
-r1, 3
 b3, 3
-r6, 2
-Player 1 Wins.
-Player 1's Score: 15
-Player 2's Score: 0
-==========
-Red (First) = Player 2
-Blue (Second) = Player 1
-
-r4 r5 r1 -- --
-r3 r6 -- -- --
-r2 -- -- -- b2
--- -- -- b6 b3
--- -- b1 b5 b4
-
-r1, 3
-b1, 3
-r2, 1
+r2, 3
 b2, 3
-r3, 2
-b5, 3
-r2, 2
-b2, 3
+r3, 3
+b3, 2
+r4, 3
+b6, 1
 r5, 1
-b5, 3
-r4, 1
-b6, 3
-r5, 1
-b5, 3
-r4, 1
-b6, 3
-r3, 2
