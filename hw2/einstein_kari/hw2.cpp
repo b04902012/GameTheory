@@ -237,7 +237,7 @@ int main(){
             if(phase%2==self){
                 timeup=false;
                 int num=0;
-                alarm(9);
+                alarm(8);
                 while(!timeup){
                     mcts(h,1.18,0);
                     num++;
