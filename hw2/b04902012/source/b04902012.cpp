@@ -2,12 +2,19 @@
 #include<signal.h>
 #include<unistd.h>
 using namespace std;
+#define MP make_pair
+#define PB push_back
 typedef long long int ll;
 typedef bitset<100> bd;
 typedef double db;
+typedef pair<db,db> PD;
 #define win first
 #define los second 
+#define EXPAND_TIME 100
+#define PRUNE_R 1.0
+#define PRUNE_THR 0.3
 unordered_map<bd,pair<db,db>> trans;
+unordered_map<bd,int> prune;
 const db INF = 1e10;
 bd mask;
 int self;
@@ -49,6 +56,9 @@ bd encode(int* board){
 bd turn(bd h){
     return (h>>25)|(h<<75);
 };
+PD rev(PD p){
+    return MP(p.second, p.first);
+}
 
 int end(bd h){
     if((h&mask).none()){
@@ -65,10 +75,10 @@ int end(bd h){
     }
     return 0;
 }
-void move(bd h, bd* lst){
+int move(bd h, bd* lst){
     if(end(h)){
         lst[0]=bd(0);
-        return;
+        return 0;
     }
     bd h1 = h;
     h1 = ((h1 << 75) >> 75) | ((h1 << 25) >> 75);
@@ -106,33 +116,80 @@ void move(bd h, bd* lst){
                 idx++;
             }
     }
+    if(idx==0){
+        lst[idx]=turn(h);
+        idx++;
+    }
     lst[idx]=bd(0);
-    return;
+    return idx;
 }
-int mcts(bd h,db c,int depth){
+int rdwk(bd h){
+    if(end(h))
+        return end(h);
+    bd lst[12];
+    int num = move(h,lst);
+    int rand_idx = fastrand() % num;
+    return 3 - rdwk(lst[rand_idx]);
+}
+PD expand(bd h){
+    int idx = 0;
+    bd lst[12];
+    move(h,lst);
+    PD res = MP(0.0,0.0);
+    while(lst[idx].any()){
+        bd g = lst[idx];
+        int times = EXPAND_TIME;
+        while(times--){
+            int tmp_res = rdwk(g);
+            if(tmp_res == 1){
+                res.los+=1.0;
+                trans[g].win+=1.0;
+            }
+            else{
+                res.win+=1.0;
+                trans[g].los+=1.0;
+            }
+        }
+        idx++;
+    }
+    return res;
+}
+PD mcts(bd h,db c,int depth){
     if(trans.find(h)==trans.end())trans[h]=make_pair(0.0,0.0);
     if(end(h)){
         if(end(h)==1){
-            trans[h].win+=1.0;
-            return 1;
+            trans[h].win+=10000.0;
+            return MP(10000.0,0.0);
         }
         else{
-            trans[h].los+=1.0;
-            return 2;
+            trans[h].los+=10000.0;
+            return MP(0.0,10000.0);
         }
     }
     bd lst[12];
     move(h,lst);
-    int idx = 0;
-    bd g = turn(h);
-    db score = -INF;
-    pair<db,db>s=trans[h];
-    if(depth<2){
+    PD s=trans[h];
+    PD res;
+    if(trans[lst[0]].win+trans[lst[0]].los>0.5){
+        int idx = 0;
+        bd g = turn(h);
+        db score = -INF;
+        db max_rate = 0.0;
+        db max_var = 0.0;
+        int prune_list = prune[h];
         while(lst[idx].any()){
-            pair<db,db>t=trans[lst[idx]];
+            if((1<<idx)&prune_list){
+                idx++;
+                continue;
+            }
+            PD t=trans[lst[idx]];
             db rate = 0.5;
             if(t.win+t.los>0.5)
                 rate = t.los/(t.win+t.los);
+            if(rate > max_rate){
+                max_rate = rate;
+                max_var = sqrt(t.los * t.win / pow((t.win+t.los), 2.0));
+            }
             db reg = 0.0;
             if(s.win+s.los>0.5){
                 if(t.win+t.los>0.5)
@@ -145,17 +202,21 @@ int mcts(bd h,db c,int depth){
             }
             idx++;
         }
+        for(int tmp_idx = 0; tmp_idx < idx; tmp_idx ++){
+            PD t = trans[lst[tmp_idx]];
+            db rate = t.los / (t.win+t.los);
+            db var = sqrt(t.los * t.win / pow((t.win+t.los), 2.0));
+            if(rate + PRUNE_R * var < max_rate - PRUNE_R * max_var && var < PRUNE_THR && max_var < PRUNE_R){
+                prune[h]|=(1<<tmp_idx);
+            }
+        }
+        res = rev(mcts(g,c,depth+1));
     }
     else{
-        while(lst[idx].any())idx++;
-        if(idx){
-            int search_idx = fastrand()%idx;
-            g=lst[search_idx];
-        }
+        res = expand(h);
     }
-    int res = 3-mcts(g,c,depth+1);
-    if(res==1)trans[h].win+=1.0;
-    else trans[h].los+=1.0;
+    trans[h].win+=res.win;
+    trans[h].los+=res.los;
     return res;
 }
 int move_by_encode(bd h, bd newh, int* board){
@@ -193,6 +254,7 @@ bd dcs(bd h,int* board){
         int b[25];
         for(int i=0;i<25;i++)b[i]=board[i];
         fprintf(stderr,"%d: ",move_by_encode(h,lst[idx],b));
+        fprintf(stderr,"%f/%f, \%\n",trans[lst[idx]].los,trans[lst[idx]].win);
         fprintf(stderr,"%f\%\n",trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)*100.0);
         if(rate<trans[lst[idx]].los/(trans[lst[idx]].win+trans[lst[idx]].los)){
             g=lst[idx];

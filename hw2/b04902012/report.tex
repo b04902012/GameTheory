@@ -63,10 +63,10 @@ E-mail: \href{mailto:b04902012@ntu.edu.tw}{\texttt{b04902012@ntu.edu.tw}}\\
 
 \end{center}
 \vspace{5pt}
-\section{Compilation}
-\texttt{g++ b04902012.cpp -O2 -o b04902012}
-\section{Execution}
-\lstinline{./b04902012}
+\section{Compilation and Execution}
+\texttt{cd source}\\
+\texttt{g++ b04902012.cpp -O2 -o b04902012}\\
+\texttt{./b04902012}
 \section{Implementation}
     \subsection{Encode/Hash}
         一個盤面是由 5$\times$5 的棋盤，以及若干個棋子組成。其中，棋子可以分成四類：
@@ -81,29 +81,30 @@ E-mail: \href{mailto:b04902012@ntu.edu.tw}{\texttt{b04902012@ntu.edu.tw}}\\
 
         \includegraphics[scale = 0.5]{img/RedNumber.png}\includegraphics[scale = 0.5]{img/BlueNumber.png}
 
-        舉例來說：以下的兩個盤面雖然輪到的人不同，棋盤的樣子也不一樣，但它們的四種棋子的位置分佈都相同，因此可以視為等價。
+        舉例來說：以下的兩個盤面雖然輪到的人不同，棋子的擺放也不一樣，但它們的四種棋子的位置分佈，對於當前回合的玩家而言，都相同，因此可以視為等價。
 
         \includegraphics[scale=0.25]{img/Board1}\includegraphics[scale=0.25]{img/Board2}\\
         \(A = \{7, 15\}\)\\
-        \(B = \{1, 22\}\)\\
+        \(B = \{2, 23\}\)\\
         \(C = \{23\}\)\\
-        \(D = \{11\}\)\\
+        \(D = \{13\}\)\\
         我的編碼方式是先把 \(A\), \(B\), \(C\), \(D\) 分別以上述的順序轉換成一個長度為 25 的 bitset，再把這四個 bitset 接起來，形成一個長度為 100 的 bitset。\\
         \(Enc(A) = 0000000001000000010000000\)\\
-        \(Enc(B) = 0010000000000000000000010\)\\
+        \(Enc(B) = 0100000000000000000000100\)\\
         \(Enc(C) = 0100000000000000000000000\)\\
-        \(Enc(D) = 0000000000000100000000000\)\\
+        \(Enc(D) = 0000000000010000000000000\)\\
         \(Enc(\text{Board})=Enc(D)Enc(C)Enc(B)Enc(A)\)\\
         Board 在一手之後的盤面會是 \(Enc(A')Enc(D')Enc(C')Enc(B')\)。
     \subsection{Information Storage}
-        我建立了一個 \texttt{bitset -> pair<double, double>} 的 hash table \texttt{trans}，一個盤面的勝場數和敗場數會被紀錄在 \texttt{trans[}\(Enc(\text{Board})\)\texttt{]}中。
+        我建立了一個 \texttt{bitset -> pair<double, double>} 的 hash table \texttt{trans}，一個盤面的勝場數和敗場數會被紀錄在 \texttt{trans[}\(Enc(\text{Board})\)\texttt{]}中。這樣的好處是，可以重複使用等價盤面的信息量。
     \subsection{Searching Strategy}
         定義 \(Move(Enc(\text{board}))=\{Enc(\text{all possible board after one move})\}\).
         採用 \textit{Monte-Carlo Tree Search}，並對勝/敗場數的平均與標準差以 \textit{Progressive Pruning} 作為優化。\(Enc(\text{board})\)的小孩是所有 \(Move(Enc(\text{board}))\) 內的元素。由於 \(Enc\) 的編號是以「該回合的玩家」為標準，造成的效果就像是每一手都把盤面旋轉 180 度。因此我的作法比起 Min-Max，更像是 Nega-Max。
     \subsection{Parameters}
     \begin{itemize}
         \item Simulating times per child when expanding: \(100\)
-        \item \(r_d\): \(2.0\)
-        \item \(\sigma_e\): \(0.2\)
+        \item Searching timeout: \(8\) sec.
+        \item \(r_d\): \(1.0\)
+        \item \(\sigma_e\): \(0.3\)
     \end{itemize}
 \end{document}

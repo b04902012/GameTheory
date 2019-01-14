@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018/Arch Linux) (preloaded format=xelatex 2018.12.19)  27 DEC 2018 03:46
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018/Arch Linux) (preloaded format=xelatex 2018.12.19)  27 DEC 2018 04:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1162,29 +1162,22 @@ Overfull \hbox (16.10196pt too wide) in paragraph at lines 86--98
  []
 
 [2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 109.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 109.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 110.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 110.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 109.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 109.
-
-
-Package rerunfilecheck Warning: File `report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report.out':
-(rerunfilecheck)             Before: 6198072CED41FEE9AABD1947410B6544
-(rerunfilecheck)             After:  DB118717FCA6D6806EF672922FEB9C12.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 109.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 110.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 110.
+Package rerunfilecheck Info: File `report.out' has not changed.
+(rerunfilecheck)             Checksum: 10A463423CCF46B3C990048194D95268.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 110.
  ) 
 Here is how much of TeX's memory you used:
- 37690 strings out of 492956
- 758627 string characters out of 6139023
- 843937 words of memory out of 5000000
- 41277 multiletter control sequences out of 15000+600000
+ 37689 strings out of 492956
+ 758605 string characters out of 6139023
+ 844937 words of memory out of 5000000
+ 41276 multiletter control sequences out of 15000+600000
  537439 words of font info for 55 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 54i,6n,73p,942b,880s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,6n,73p,942b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on report.pdf (3 pages).
